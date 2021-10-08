@@ -29,6 +29,8 @@ def fourierdata(pointlist,samp):
 
         full_data.append(data_piece)
 
+    full_data.sort(reverse = True, key = lambda full_data: full_data[0])
+
     print(full_data)
 
     return full_data

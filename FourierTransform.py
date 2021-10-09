@@ -8,9 +8,13 @@ def fourierdata(pointlist,samp):
     ys = []
     for i in pointlist:
         xs.append(i[0])
-        xs.insert(0, i[0])
+
         ys.append(i[1])
-        ys.insert(0,i[1])
+    for j in range(1,len(pointlist)+1):
+        xs.append(pointlist[-j][0])
+        ys.append(pointlist[-j][1])
+        
+
 
     comp_array = np.array(xs, dtype = complex)
     comp_array.imag = np.array(ys)

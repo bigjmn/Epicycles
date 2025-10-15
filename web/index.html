@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Epicycle Drawer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="panel">
+      <h1>Draw a shape</h1>
+      <canvas id="drawCanvas" width="500" height="500"></canvas>
+      <div class="controls">
+        <button id="clearBtn" type="button">Clear</button>
+        <span class="hint">Draw with your mouse or finger, release to animate.</span>
+      </div>
+    </section>
+    <section class="panel">
+      <h1>Epicycle reconstruction</h1>
+      <canvas id="epicycleCanvas" width="500" height="500"></canvas>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

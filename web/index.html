@@ -19,6 +19,21 @@
     <section class="panel">
       <h1>Epicycle reconstruction</h1>
       <canvas id="epicycleCanvas" width="500" height="500"></canvas>
+      <div class="epi-controls">
+        <label for="epicycleSlider" class="slider-label">
+          Epicycles: <span id="epicycleValue">1</span>
+        </label>
+        <input
+          id="epicycleSlider"
+          class="slider"
+          type="range"
+          min="1"
+          step="1"
+          max="1"
+          value="1"
+          disabled
+        />
+      </div>
     </section>
   </main>
   <script src="main.js"></script>

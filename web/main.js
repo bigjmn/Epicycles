@@ -3,6 +3,8 @@ const drawCtx = drawCanvas.getContext('2d');
 const epiCanvas = document.getElementById('epicycleCanvas');
 const epiCtx = epiCanvas.getContext('2d');
 const clearBtn = document.getElementById('clearBtn');
+const epicycleSlider = document.getElementById('epicycleSlider');
+const epicycleValue = document.getElementById('epicycleValue');
 
 let drawing = false;
 let sampledPoints = [];
@@ -13,6 +15,7 @@ let fourierSeries = [];
 let signalLength = 0;
 let time = 0;
 let trace = [];
+let epicycleLimit = 1;
 const maxTraceLength = 1000;
 const animationSpeed = 1; // matches discrete sample step
 
@@ -81,6 +84,7 @@ function endDrawing(event) {
   signalLength = sampledPoints.length * 2;
   time = 0;
   trace = [];
+  setupEpicycleSlider();
   startAnimation();
 }
 
@@ -142,7 +146,8 @@ function stepAnimation() {
   epiCtx.lineWidth = 1.5;
   epiCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
 
-  for (let i = 0; i < fourierSeries.length; i += 1) {
+  const activeEpicycles = Math.min(epicycleLimit, fourierSeries.length);
+  for (let i = 0; i < activeEpicycles; i += 1) {
     const coeff = fourierSeries[i];
     const prevX = x;
     const prevY = y;
@@ -220,6 +225,11 @@ function resetAll() {
   trace = [];
   time = 0;
   lastPoint = null;
+  epicycleLimit = 1;
+  epicycleSlider.value = '1';
+  epicycleSlider.max = '1';
+  epicycleSlider.disabled = true;
+  epicycleValue.textContent = '1';
   drawCtx.fillStyle = '#fff';
   drawCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
   drawCtx.beginPath();
@@ -238,3 +248,20 @@ document.addEventListener('touchmove', event => {
     event.preventDefault();
   }
 }, { passive: false });
+
+epicycleSlider.addEventListener('input', event => {
+  const value = Number.parseInt(event.target.value, 10);
+  epicycleLimit = Number.isNaN(value) ? epicycleLimit : Math.max(1, value);
+  epicycleValue.textContent = epicycleLimit;
+  time = 0;
+  trace = [];
+});
+
+function setupEpicycleSlider() {
+  const maxEpicycles = Math.max(1, fourierSeries.length);
+  epicycleSlider.max = String(maxEpicycles);
+  epicycleLimit = maxEpicycles;
+  epicycleSlider.value = String(epicycleLimit);
+  epicycleSlider.disabled = false;
+  epicycleValue.textContent = epicycleLimit;
+}

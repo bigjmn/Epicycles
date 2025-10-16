@@ -55,6 +55,24 @@ canvas {
   justify-content: center;
 }
 
+.epi-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.slider-label {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.slider {
+  width: 100%;
+  max-width: 320px;
+}
+
 button {
   padding: 0.5rem 1.5rem;
   font-size: 1rem;

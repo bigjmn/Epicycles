@@ -10,15 +10,14 @@
   <main class="app">
     <section class="panel">
       <h1>Draw a shape</h1>
-      <canvas id="drawCanvas" width="500" height="500"></canvas>
+      <div class="canvas-stack">
+        <canvas id="drawCanvas" width="500" height="500"></canvas>
+        <canvas id="epicycleCanvas" width="500" height="500"></canvas>
+      </div>
       <div class="controls">
         <button id="clearBtn" type="button">Clear</button>
         <span class="hint">Draw with your mouse or finger, release to animate.</span>
       </div>
-    </section>
-    <section class="panel">
-      <h1>Epicycle reconstruction</h1>
-      <canvas id="epicycleCanvas" width="500" height="500"></canvas>
       <div class="epi-controls">
         <label for="epicycleSlider" class="slider-label">
           Epicycles: <span id="epicycleValue">1</span>

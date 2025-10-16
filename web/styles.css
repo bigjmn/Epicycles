@@ -33,6 +33,11 @@ body {
   gap: 1rem;
 }
 
+.canvas-stack {
+  position: relative;
+  width: min(100%, 500px);
+}
+
 h1 {
   font-size: 1.4rem;
   margin: 0;
@@ -45,6 +50,15 @@ canvas {
   background: white;
   border: 2px solid #ddd;
   touch-action: none;
+  display: block;
+}
+
+#epicycleCanvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: transparent;
+  border: none;
 }
 
 .controls {

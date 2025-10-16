@@ -37,6 +37,44 @@ function getCanvasPosition(event, canvas) {
   };
 }
 
+function drawArrow(ctx, fromX, fromY, toX, toY, color) {
+  const dx = toX - fromX;
+  const dy = toY - fromY;
+  const length = Math.hypot(dx, dy);
+  if (length < 1) {
+    return;
+  }
+
+  const prevStroke = ctx.strokeStyle;
+  const prevFill = ctx.fillStyle;
+
+  const headLength = Math.min(12, Math.max(6, length * 0.25));
+  const angle = Math.atan2(dy, dx);
+
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+
+  ctx.beginPath();
+  ctx.moveTo(fromX, fromY);
+  ctx.lineTo(toX, toY);
+  ctx.stroke();
+
+  const leftX = toX - headLength * Math.cos(angle - Math.PI / 8);
+  const leftY = toY - headLength * Math.sin(angle - Math.PI / 8);
+  const rightX = toX - headLength * Math.cos(angle + Math.PI / 8);
+  const rightY = toY - headLength * Math.sin(angle + Math.PI / 8);
+
+  ctx.beginPath();
+  ctx.moveTo(toX, toY);
+  ctx.lineTo(leftX, leftY);
+  ctx.lineTo(rightX, rightY);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = prevStroke;
+  ctx.fillStyle = prevFill;
+}
+
 function startDrawing(event) {
   event.preventDefault();
   if (fourierSeries.length) {
@@ -163,11 +201,7 @@ function stepAnimation() {
     epiCtx.arc(prevX, prevY, coeff.amplitude, 0, Math.PI * 2);
     epiCtx.stroke();
 
-    epiCtx.beginPath();
-    epiCtx.moveTo(prevX, prevY);
-    epiCtx.lineTo(x, y);
-    epiCtx.strokeStyle = '#0f7b0f';
-    epiCtx.stroke();
+    drawArrow(epiCtx, prevX, prevY, x, y, '#0f7b0f');
     epiCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
 
     epiCtx.fillStyle = '#005fb8';
@@ -184,7 +218,7 @@ function stepAnimation() {
   }
 
   epiCtx.lineWidth = 3;
-  epiCtx.strokeStyle = '#111';
+  epiCtx.strokeStyle = '#0067c0';
   epiCtx.beginPath();
   for (let i = 0; i < trace.length; i += 1) {
     const point = trace[i];
@@ -198,7 +232,7 @@ function stepAnimation() {
 
   if (trace.length) {
     const tip = trace[trace.length - 1];
-    epiCtx.fillStyle = '#d13438';
+    epiCtx.fillStyle = '#0067c0';
     epiCtx.beginPath();
     epiCtx.arc(tip.x, tip.y, 4, 0, Math.PI * 2);
     epiCtx.fill();
@@ -214,8 +248,7 @@ function stepAnimation() {
 }
 
 function clearEpicycleCanvas() {
-  epiCtx.fillStyle = '#fff';
-  epiCtx.fillRect(0, 0, epiCanvas.width, epiCanvas.height);
+  epiCtx.clearRect(0, 0, epiCanvas.width, epiCanvas.height);
 }
 
 function resetAll() {
